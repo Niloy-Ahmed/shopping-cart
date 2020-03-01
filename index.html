@@ -29,7 +29,7 @@
                            <input id="mobile-input" type="text" class="form-control text-center" value="1">
                            <button id="mobile-plusBtn" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$ <span class="mobile-cost">1219</span></h5>
+                        <h5>$<span id="mobile-cost">1219</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -48,7 +48,7 @@
                            <button id="cover-plusBtn" class="btn btn-default"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$ <span id="cover-cost">59</span></h5>
+                        <h5>$<span id="cover-cost">59</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -59,14 +59,14 @@
 
                      <div class="col-md-8">
                         <h5>Subtotal: </h5>
-                        <h5>Tax:</h5>
+                        <h5>Tax(15%):</h5>
                         <h5>Total:</h5>
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$ <span id="subtotal">1,278</span></h5>
-                        <h5>$ <span id="tax">191.7</span></h5>
-                        <h5>$ <span id="total">1458.7</span></h5>
+                        <h5>$<span id="subtotal">1278</span></h5>
+                        <h5>$<span id="tax">191.7</span></h5>
+                        <h5>$<span id="total">1469.7</span></h5>
                      </div>
                   </div>
                </div>
@@ -78,84 +78,81 @@
       </div>
    </section>
 
-<script>
+
+
+   <script>
          const mobile = parseFloat(document.getElementById("mobile-cost").innerText);
          const cover = parseFloat(document.getElementById("cover-cost").innerText);
 
-         //mobile plus button even handler
+         //mobile plus button event handler
          const mobilePlusBtn = document.getElementById('mobile-plusBtn');
-         mobilePlusBtn.addEventListener('click', function(){
-         add('mobile-input');
-         //document.getElementById("mobile-cost").innerText = getAmount("mobile-cost") + mobile;
+         mobilePlusBtn.addEventListener('click', function () {
+            add('mobile-input');
+            // document.getElementById("mobile-cost").innerText = getAmount("mobile-cost") + mobile;
+            // document.getElementById("mobile-cost").innerText = parseFloat(document.getElementById('mobile-input').value)*1219;
+            costAmount(1219, "mobile-cost", "mobile-input");
+            cartAmount();
+         });
 
-         costAmount (1219, "mobile-cost", "mobile-input");
-         cartAmount();
-         });   
          //mobile minus button event handler
          const mobileMinusBtn = document.getElementById('mobile-minusBtn');
-         mobileMinusBtn.addEventListener('click', function(){
+         mobileMinusBtn.addEventListener('click', function () {
             minus('mobile-input');
             if(getAmount("mobile-cost")>mobile){
                costAmount(1219, "mobile-cost", "mobile-input");
                cartAmount();
             }
          });
+
          //cover plus button event handler
          const coverPlusBtn = document.getElementById('cover-plusBtn');
-         coverPlusBtn.addEventListener('click', function(){
+         coverPlusBtn.addEventListener('click', function () {
             add('cover-input');
             costAmount(59, "cover-cost", "cover-input");
             cartAmount();
          });
 
          //cover minus button event handler
-         const coverPlusBtn = document.getElementById('cover-plusBtn');
-         coverPlusBtn.addEventListener('click', function(){
-            add('cover-input');
-            if (getAmount("cover-cost") > cover){
+         const coverMinusBtn = document.getElementById('cover-minusBtn');
+         coverMinusBtn.addEventListener('click', function () {
+            minus('cover-input');
+            if (getAmount("cover-cost") > cover) {
                costAmount(59, "cover-cost", "cover-input");
+               cartAmount();
             }
          });
 
 
 
-         function getAmount(id){
+         function getAmount(id) {
             const mobileCost = document.getElementById(id).innerText;
-            const mobileCostNumber= parseFloat(mobileCost);
+            const mobileCostNumber = parseFloat(mobileCost);
             return mobileCostNumber;
          };
-         function add(id){
-            const currentQuantity = document.getElementById(id).value;
-            const currentQuantityNumber = parseFloat(currentQuantity);
-            const totalQuantity  = currentQuantityNumber + 1;
-            document.getElementById(id).value = totalQuantity; 
+         function add(id) {
+               const currentQuantity = document.getElementById(id).value;
+               const currentQuantityNumber = parseFloat(currentQuantity);
+               const totalQuantity = currentQuantityNumber + 1;
+               document.getElementById(id).value = totalQuantity;
          };
          function minus(id) {
             const currentQuantity = document.getElementById(id).value;
             const currentQuantityNumber = parseFloat(currentQuantity);
             if (currentQuantityNumber > 1) {
-               const TotalQuality = currentQuantityNumber -1;
+               const totalQuantity = currentQuantityNumber - 1;
                document.getElementById(id).value = totalQuantity;
             };
          };
-
-         function cartAmount(){
-            document.getElementById("subtotal").innerText = getAmount("mobile-cost") + getAmount ("cover-cost");
-            document.getElementById("tax").innerText = (getAmount("subtotal") * 0.15). toFixed(2);
-            document.getElementById("total").innerText =  getAmount("subtotal") + getAmount("tax");
-
+         function cartAmount() {
+            document.getElementById("subtotal").innerText = getAmount("mobile-cost") + getAmount("cover-cost");
+            document.getElementById("tax").innerText = (getAmount("subtotal") * 0.15).toFixed(2);
+            document.getElementById("total").innerText = getAmount("subtotal") + getAmount("tax");
          };
-
-         function costAmount(cost,deviceCost,deviceInput){
+         function costAmount(cost,deviceCost,deviceInput) {
             document.getElementById(deviceCost).innerText = parseFloat(document.getElementById(deviceInput).value) * cost;
          }
 
-
-
-
-
-</script>
-
+   </script>
 </body>
 
 </html>
